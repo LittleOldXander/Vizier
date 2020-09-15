@@ -1,0 +1,34 @@
+import logging, logging.handlers
+import sys, os
+from pathlib import Path
+
+
+
+STATUS_GAME = "with the code"
+
+DB_HOST = "localhost"
+DB_NAME = "DB_NAME"
+DB_USER = "DB_USER"
+DB_PASS = "DB_PASS"
+
+LOG_DIR = os.path.join(os.path.dirname(__file__), "tmp")
+DISCORD_TOKEN = "YOUR_TOKEN_HERE"
+THREADS_NO =2
+
+WARN_DISTANCE = 10
+RESULTS_PER_PAGE = 4
+CHANNEL_RE = "(.*?)-(station-claims|aug-requests|fob-op-limit)"
+
+
+Path(LOG_DIR).mkdir(parents=True, exist_ok=True)
+
+log=logging.getLogger()
+h=logging.handlers.RotatingFileHandler(os.path.join(LOG_DIR, "vizier.log"), "a", 10485760, 5)
+sh=logging.StreamHandler(sys.stdout)
+log.setLevel(logging.DEBUG)
+log_format = logging.Formatter("%(asctime)s %(levelname)s [%(module)s, %(lineno)d] %(message)s")
+h.setFormatter(log_format)
+sh.setFormatter(log_format)
+log.addHandler(h)
+log.addHandler(sh)
+
